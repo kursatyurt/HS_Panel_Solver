@@ -2,22 +2,31 @@
 #include <armadillo>
 #include <vector>
 #include <memory>
+#include <cmath>
 #include "point.hpp"
 #include "panel.hpp"
+#include "solver.hpp"
 #include "InitFromFile.hpp"
-int main(int argc, const char **argv) {
- 
-std::cout << "Welcome to Great HS Solver \n";
-std::unique_ptr<BaseInitializer> pInit = std::make_unique<InitFromFile>();
-std::vector<Point> Points;
-std::vector<Panel> Panels; 
-int x;
+int main(int argc, const char **argv)
+{
 
+  std::cout << "Welcome to Great HS Solver \n";
+  std::unique_ptr<BaseInitializer> pInit = std::make_unique<InitFromFile>();
+  std::vector<Point> Points;
+  std::vector<Panel> Panels;
 
-pInit->init_points(x,Points);
-pInit->init_panels(Points,Panels);
+  pInit->init_points(Points);
+  pInit->init_panels(Points, Panels);
 
+  double AoA;
+  std::cout << "Please Enter AoA in Degree:\n";
+  std::cin >> AoA;
+  // Convert Angle to Radians
+  AoA = AoA * acos(0.0) / 90;
 
-return 0;
+  std::unique_ptr<Solver> pSolver = std::make_unique<Solver>();
+  pSolver->fill(Points, Panels, AoA);
+  pSolver->solve();
+
+  return 0;
 }
-

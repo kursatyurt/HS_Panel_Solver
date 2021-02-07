@@ -4,12 +4,11 @@
 class Point
 {
 public:
-double x, y;
-Point();
-Point(double a,double b);
-void   change_delta(double dx,double dy);
-void   set_values(double xn, double yn);
+    double x, y;
+    Point();
+    Point(double a, double b);
+    void change_delta(double dx, double dy);
+    void set_values(double xn, double yn);
 };
-
 
 #endif
