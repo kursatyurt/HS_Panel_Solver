@@ -18,3 +18,4 @@ void Panel::update(const std::vector<Point> &point)
     this->sinthe = sin(atan2(point[i+1].y - point[i].y, point[i+1].x - point[i].x));
     this->costhe = cos(atan2(point[i+1].y - point[i].y, point[i+1].x - point[i].x));
 }
+
