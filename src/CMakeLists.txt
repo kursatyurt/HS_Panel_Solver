@@ -4,12 +4,21 @@ project(hs_solver VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
+
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
+
+
+
 add_executable(hs_solver
        	"./main.cpp"
         "./point.cpp"
         "./panel.cpp"
        	"./InitFromFile.cpp"
+        "./solver.cpp"
        	)
+
+target_link_libraries(hs_solver ${ARMADILLO_LIBRARIES})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
