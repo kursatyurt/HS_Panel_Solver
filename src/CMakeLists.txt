@@ -7,6 +7,7 @@ enable_testing()
 add_executable(hs_solver
        	"./main.cpp"
         "./point.cpp"
+        "./panel.cpp"
        	"./InitFromFile.cpp"
        	)
 
