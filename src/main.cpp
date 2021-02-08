@@ -27,6 +27,7 @@ int main(int argc, const char **argv)
   std::unique_ptr<Solver> pSolver = std::make_unique<Solver>();
   pSolver->fill(Points, Panels, AoA);
   pSolver->solve();
+  pSolver->calculate_cp(Panels);
 
   return 0;
 }
