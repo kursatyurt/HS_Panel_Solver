@@ -1,12 +1,19 @@
 #include "solver.hpp"
+#include <iomanip>
 
 void Solver::fill(const std::vector<Point> &Points, const std::vector<Panel> &Panels, const double &AoA)
 {
   this->A = arma::mat((Panels.size() + 1), (Panels.size() + 1), arma::fill::zeros);
   this->RHS = arma::vec(Panels.size() + 1, arma::fill::zeros);
   this->Solution = arma::vec(Panels.size() + 1, arma::fill::zeros);
-  const auto pi2inv = 1. / (4 * acos(0.0));
+  this->Sinf = arma::mat((Panels.size()), (Panels.size()), arma::fill::zeros);
+  this->Ginf = arma::mat((Panels.size()), (Panels.size()), arma::fill::zeros);
 
+  const auto pi2inv = 1. / (4 * acos(0.0));
+  this->sinaoa = sin(AoA);
+  this->cosaoa = cos(AoA);
+
+  auto last = Panels.size();
   for (auto panel1 : Panels)
   {
     auto i = panel1.panel_num;
@@ -15,6 +22,7 @@ void Solver::fill(const std::vector<Point> &Points, const std::vector<Panel> &Pa
       auto j = panel2.panel_num;
       if (i == j)
       {
+        this->Sinf(i, j) = 0.5;
         this->A(i, j) = 0.5;
       }
       else
@@ -29,17 +37,40 @@ void Solver::fill(const std::vector<Point> &Points, const std::vector<Panel> &Pa
         auto sinij = panel1.sinthe * panel2.costhe - panel1.costhe * panel2.sinthe;
 
         this->A(i, j) = pi2inv * (sinij * lnij + cosij * bij);
-        this->A(i, Panels.size()) += pi2inv * (cosij * lnij - sinij * bij);
-        this->A(Panels.size(), Panels.size()) += pi2inv * (sinij * lnij + cosij * bij);
-        this->A(Panels.size(), j) += pi2inv * (sinij * bij - cosij * lnij);
+        this->Sinf(i, j) = pi2inv * (sinij * lnij + cosij * bij);
+        this->Ginf(i, j) = pi2inv * (-sinij * bij + cosij * lnij);
+        this->A(i, last) += pi2inv * (cosij * lnij - sinij * bij);
+        this->A(last, i) += pi2inv * ( sinij * bij - cosij * lnij);
+        this->A(last, last) += (pi2inv * (sinij * lnij + cosij * bij));
       }
     }
-    this->RHS(i) = sin(panel1.sinthe - AoA);
+    this->RHS(i) = panel1.sinthe * this->cosaoa - panel1.costhe * this->sinaoa;
   }
+  this->RHS(last) = -(Panels.front().costhe * this->cosaoa + Panels.front().sinthe * this->sinaoa) - (Panels.back().costhe * this->cosaoa + Panels.back().sinthe * this->sinaoa);
 }
 
 void Solver::solve()
 {
 
   this->Solution = arma::solve(this->A, this->RHS);
+}
+
+void Solver::calculate_cp(const std::vector<Panel> &Panels)
+{
+
+  this->cp = arma::vec(Panels.size(), arma::fill::zeros);
+  std::cout << this->Solution << std::endl
+            << std::scientific;
+  auto last = Panels.size();
+  for (auto panel1 : Panels)
+  {
+    auto i = panel1.panel_num;
+    auto Vtan = panel1.costhe * this->cosaoa + panel1.costhe * this->sinaoa;
+    for (auto panel2 : Panels)
+    {
+      auto j = panel2.panel_num;
+      Vtan = Vtan - this->Solution(j) * Ginf(i, j) + this->Solution(last) * Sinf(i, j);
+    }
+    this->cp(i) = 1.0 - Vtan * Vtan;
+  }
 }
