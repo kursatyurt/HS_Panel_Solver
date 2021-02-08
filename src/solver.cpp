@@ -51,7 +51,6 @@ void Solver::fill(const std::vector<Point> &Points, const std::vector<Panel> &Pa
 
 void Solver::solve()
 {
-
   this->Solution = arma::solve(this->A, this->RHS);
 }
 
@@ -59,8 +58,6 @@ void Solver::calculate_cp(const std::vector<Panel> &Panels)
 {
 
   this->cp = arma::vec(Panels.size(), arma::fill::zeros);
-  std::cout << this->Solution << std::endl
-            << std::scientific;
   auto last = Panels.size();
   for (auto panel1 : Panels)
   {
