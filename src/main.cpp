@@ -1,15 +1,15 @@
-#include <iostream>
 #include <armadillo>
-#include <vector>
-#include <memory>
 #include <cmath>
-#include "point.hpp"
-#include "panel.hpp"
-#include "solver.hpp"
-#include "InitFromFile.hpp"
-int main(int argc, const char **argv)
-{
+#include <iostream>
+#include <memory>
+#include <vector>
 
+#include "InitFromFile.hpp"
+#include "InitFromNaca.hpp"
+#include "panel.hpp"
+#include "point.hpp"
+#include "solver.hpp"
+int main(int argc, const char **argv) {
   std::cout << "Welcome to Great HS Solver \n";
   std::unique_ptr<BaseInitializer> pInit = std::make_unique<InitFromFile>();
   std::vector<Point> Points;
@@ -17,6 +17,7 @@ int main(int argc, const char **argv)
 
   pInit->init_points(Points);
   pInit->init_panels(Points, Panels);
+  std::vector<double> cp(Panels.size(), 0.);
 
   double AoA;
   std::cout << "Please Enter AoA in Degree:\n";
@@ -27,7 +28,12 @@ int main(int argc, const char **argv)
   std::unique_ptr<Solver> pSolver = std::make_unique<Solver>();
   pSolver->fill(Points, Panels, AoA);
   pSolver->solve();
-  pSolver->calculate_cp(Panels);
+  pSolver->calculate_cp(Panels, cp);
 
+  for (auto value : cp) {
+    std::cout << value << std::endl;
+  }
+ 
+  
   return 0;
 }

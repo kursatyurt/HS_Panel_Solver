@@ -2,12 +2,12 @@
 #define INIT_FILE_H
 
 #include "BaseInitializer.hpp"
+#include <fstream>
+#include <string>
 
-class InitFromFile : public BaseInitializer
-{
-public:
-  void init_points(std::vector<Point> &Points);
-  void init_panels(const std::vector<Point> &Points, std::vector<Panel> &Panels);
+class InitFromFile : public BaseInitializer {
+  public:
+  void init_points(std::vector<Point> &Points) override;
 };
 
 #endif

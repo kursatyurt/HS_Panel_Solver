@@ -1,25 +1,17 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(hs_solver VERSION 0.1.0)
-
-include(CTest)
-enable_testing()
-
+project(HS_Panel_Solver VERSION 0.1.0)
 
 find_package(Armadillo REQUIRED)
 include_directories(${ARMADILLO_INCLUDE_DIRS})
-
-
-
-add_executable(hs_solver
+add_executable(HS_Panel_Solver
        	"./main.cpp"
         "./point.cpp"
         "./panel.cpp"
        	"./InitFromFile.cpp"
+       	"./InitFromNaca.cpp"
+       	"./BaseInitializer.cpp"
         "./solver.cpp"
        	)
 
-target_link_libraries(hs_solver ${ARMADILLO_LIBRARIES})
+target_link_libraries(HS_Panel_Solver ${ARMADILLO_LIBRARIES})
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)

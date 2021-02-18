@@ -16,10 +16,10 @@ class Solver
     double sinaoa;
 
 public:
-    arma::vec cp; 
+    std::vector<double> cp; 
     void fill(const std::vector<Point> &Points, const std::vector<Panel> &Panels, const double &AoA);
     void solve();
-    void calculate_cp(const std::vector<Panel> &Panels);
+    void calculate_cp(const std::vector<Panel> &Panels, std::vector<double> &cp);
 };
 
 #endif
