@@ -7,7 +7,7 @@
 
 class InitFromFile : public BaseInitializer {
   public:
-  void init_points(std::vector<Point> &Points) override;
+  void initPoints(std::vector<Point> &Points) override;
 };
 
 #endif

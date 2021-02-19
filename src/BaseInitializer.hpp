@@ -3,14 +3,14 @@
 #include <iostream>
 #include <exception>
 #include <vector>
-#include "point.hpp"
-#include "panel.hpp"
+#include "Point.hpp"
+#include "Panel.hpp"
 class BaseInitializer
 {
 public:
     virtual ~BaseInitializer () {};
-    virtual void init_points(std::vector<Point> &Points) = 0;
-    void init_panels(const std::vector<Point> &Points, std::vector<Panel> &Panels);
+    virtual void initPoints(std::vector<Point> &Points) = 0;
+    void initPanels(const std::vector<Point> &Points, std::vector<Panel> &Panels);
 };
 
 #endif
