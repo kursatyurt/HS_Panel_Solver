@@ -11,6 +11,7 @@
 #include "Panel.hpp"
 #include "Point.hpp"
 #include "Solver.hpp"
+#include "DataWriters.hpp"
 int main(int argc, const char **argv) {
   std::cout << "Welcome to Great HS Solver \n";
   std::unique_ptr<BaseInitializer> pInit; 
@@ -46,6 +47,9 @@ int main(int argc, const char **argv) {
   pSolver->fill(Points, Panels, AoA);
   pSolver->solve();
   pSolver->calculateCp(Panels, cp);
+
+  DataWriters* dw;
+  dw->cpWriter(cp,Panels);
 
   return 0;
 }

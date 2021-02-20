@@ -12,6 +12,7 @@ find_package(Armadillo REQUIRED)
 
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 
+
 add_executable(HS_Panel_Solver
        	"./src/HS_Solver.cpp"
         "./src/Point.cpp"
@@ -20,12 +21,11 @@ add_executable(HS_Panel_Solver
        	"./src/InitFromNaca.cpp"
        	"./src/BaseInitializer.cpp"
         "./src/Solver.cpp"
+        "./src/DataWriters.cpp"
        	)
 
 
-
 target_link_libraries(HS_Panel_Solver ${ARMADILLO_LIBRARIES})
-
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
