@@ -1,34 +1,33 @@
 #include <armadillo>
 #include <cmath>
+#include <exception>
 #include <iostream>
 #include <memory>
 #include <vector>
 
-#include <exception>
-
+#include "DataWriters.hpp"
 #include "InitFromFile.hpp"
 #include "InitFromNaca.hpp"
 #include "Panel.hpp"
 #include "Point.hpp"
 #include "Solver.hpp"
-#include "DataWriters.hpp"
-int main(int argc, const char **argv) {
+
+int main(int argc, const char **argv[]) {
   std::cout << "Welcome to Great HS Solver \n";
-  std::unique_ptr<BaseInitializer> pInit; 
-  
-  std::cout << "Enter Selection Airfoil: 1) From File 2) From NACA Digits" << std::endl;
+  std::unique_ptr<BaseInitializer> pInit;
+
+  std::cout << "Enter Selection Airfoil: 1) From File 2) From NACA Digits"
+            << std::endl;
   int selection;
   std::cin >> selection;
-  switch (selection){
-    case 1:
-      pInit = std::make_unique<InitFromFile>();
-      break;
-    default:
-      pInit = std::make_unique<InitFromNaca>();
-      break;
+  switch (selection) {
+  case 1:
+    pInit = std::make_unique<InitFromFile>();
+    break;
+  default:
+    pInit = std::make_unique<InitFromNaca>();
+    break;
   }
-
-
 
   std::vector<Point> Points;
   std::vector<Panel> Panels;
@@ -48,8 +47,8 @@ int main(int argc, const char **argv) {
   pSolver->solve();
   pSolver->calculateCp(Panels, cp);
 
-  DataWriters* dw;
-  dw->cpWriter(cp,Panels);
+  DataWriters *dw;
+  dw->cpWriter(cp, Panels);
 
   return 0;
 }

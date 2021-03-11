@@ -5,8 +5,9 @@
 #include <fstream>
 #include <string>
 
-class InitFromFile : public BaseInitializer {
-  public:
+class InitFromFile : public BaseInitializer
+{
+public:
   void initPoints(std::vector<Point> &Points) override;
 };
 

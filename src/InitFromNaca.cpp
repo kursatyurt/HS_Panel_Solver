@@ -1,7 +1,5 @@
 #include "InitFromNaca.hpp"
 
-
-
 void InitFromNaca::initPoints(std::vector<Point> &Points)
 {
   int NACA, num_panel;
@@ -32,8 +30,6 @@ void InitFromNaca::initPoints(std::vector<Point> &Points)
   //  else  // 5 - DIGIT AIRFOIL
   //  {naca5(Point,dist,a,b,c,d,e)}
 };
-
-
 
 void InitFromNaca::nacaun4(std::vector<Point> &Points, const int num_panel, const int b, const int c, const int d, const int e)
 {

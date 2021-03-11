@@ -16,7 +16,7 @@ class Solver
     double sinaoa;
 
 public:
-    std::vector<double> cp; 
+    std::vector<double> cp;
     void fill(const std::vector<Point> &Points, const std::vector<Panel> &Panels, const double &AoA);
     void solve();
     void calculateCp(const std::vector<Panel> &Panels, std::vector<double> &cp);

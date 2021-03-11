@@ -8,7 +8,7 @@
 class BaseInitializer
 {
 public:
-    virtual ~BaseInitializer () {};
+    virtual ~BaseInitializer(){};
     virtual void initPoints(std::vector<Point> &Points) = 0;
     void initPanels(const std::vector<Point> &Points, std::vector<Panel> &Panels);
 };

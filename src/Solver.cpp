@@ -3,7 +3,8 @@
 #include <iomanip>
 
 void Solver::fill(const std::vector<Point> &Points,
-                  const std::vector<Panel> &Panels, const double &AoA) {
+                  const std::vector<Panel> &Panels, const double &AoA)
+{
   this->A =
       arma::mat((Panels.size() + 1), (Panels.size() + 1), arma::fill::zeros);
   this->RHS = arma::vec(Panels.size() + 1, arma::fill::zeros);
@@ -16,14 +17,19 @@ void Solver::fill(const std::vector<Point> &Points,
   this->cosaoa = cos(AoA);
 
   auto last = Panels.size();
-  for (auto panel1 : Panels) {
+  for (auto panel1 : Panels)
+  {
     auto i = panel1.panel_num;
-    for (auto panel2 : Panels) {
+    for (auto panel2 : Panels)
+    {
       auto j = panel2.panel_num;
-      if (i == j) {
+      if (i == j)
+      {
         this->Sinf(i, j) = 0.5;
         this->A(i, j) = 0.5;
-      } else {
+      }
+      else
+      {
         auto dxj = panel1.xm - Points[j].x;
         auto dxjp = panel1.xm - Points[j + 1].x;
         auto dyj = panel1.ym - Points[j].y;
@@ -55,12 +61,15 @@ void Solver::fill(const std::vector<Point> &Points,
 void Solver::solve() { this->Solution = arma::solve(this->A, this->RHS); }
 
 void Solver::calculateCp(const std::vector<Panel> &Panels,
-                          std::vector<double> &cp) {
+                         std::vector<double> &cp)
+{
   auto last = Panels.size();
-  for (auto panel1 : Panels) {
+  for (auto panel1 : Panels)
+  {
     auto i = panel1.panel_num;
     auto Vtan = panel1.costhe * this->cosaoa + panel1.costhe * this->sinaoa;
-    for (auto panel2 : Panels) {
+    for (auto panel2 : Panels)
+    {
       auto j = panel2.panel_num;
       Vtan = Vtan - this->Solution(j) * Ginf(i, j) +
              this->Solution(last) * Sinf(i, j);
